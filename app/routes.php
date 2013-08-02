@@ -11,6 +11,17 @@
 |
 */
 
+Route::get('admin/logout',  array('as' => 'admin.logout',      'uses' => 'AuthController@getLogout'));
+Route::get('admin/login',   array('as' => 'admin.login',       'uses' => 'AuthController@getLogin'));
+Route::post('admin/login',  array('as' => 'admin.login.post',  'uses' => 'AuthController@postLogin'));
+
+Route::group(array('prefix' => 'admin', 'before' => 'auth.admin'), function()
+{
+    Route::any('/', 'PagesController@index');
+    Route::resource('cards', 'CardsController');
+    Route::resource('decks', 'DecksController');
+});
+
 Route::get('/', function()
 {
 	return View::make('hello');
